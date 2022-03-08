@@ -8,6 +8,7 @@ app.use(express.urlencoded({
 app.use(express.json())
 app.use('/dishes',require('./Routers/dishRouter'))
 app.use('/promotions',require('./Routers/promoRouter'))
+app.use('/leader',require('./Routers/leaderRouter'))
 app.all('/', (req, res) => {
 	res.send('Index Page')
 })
