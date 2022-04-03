@@ -1,7 +1,11 @@
+require('dotenv').config()
 const express = require('express')
+const { default: mongoose } = require('mongoose')
 const app = express()
 const path = require('path')
+const connectDatabase = require('./dbConnect')
 const PORT = (process.env.PORT || 3000)
+connectDatabase()
 app.use(express.urlencoded({
 	extended: "false"
 }))
@@ -12,6 +16,9 @@ app.use('/leader',require('./Routers/leaderRouter'))
 app.all('/', (req, res) => {
 	res.send('Index Page')
 })
-app.listen(PORT, () => {
-	console.log(`Server running on PORT ${PORT}`)
+mongoose.connection.once('open', () => {
+	console.log('Connected to MongoDB')
+	app.listen(PORT, () => {
+		console.log(`Server running on PORT ${PORT}`)
+	})
 })
